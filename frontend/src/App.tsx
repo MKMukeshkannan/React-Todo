@@ -3,6 +3,7 @@ import axios from "axios";
 import DeleteIcon from "@mui/icons-material/Delete";
 import CheckBoxRoundedIcon from "@mui/icons-material/CheckBoxRounded";
 import CheckBoxOutlineBlankRoundedIcon from "@mui/icons-material/CheckBoxOutlineBlankRounded";
+import { BACKEND } from "./libs/constants";
 
 interface Data {
   id: number;
@@ -56,7 +57,7 @@ function App() {
 
   useEffect(() => {
     async function fetchTemplate() {
-      const res = await axios.get("http://localhost:6969/data");
+      const res = await axios.get(BACKEND + "/data");
 
       if (Array.isArray(res.data)) {
         setData(res.data);
@@ -75,7 +76,7 @@ function App() {
 
     async function checkCall() {
       try {
-        const res = await axios.put("http://localhost:6969/data", {
+        await axios.put("http://localhost:6969/data", {
           id,
           checked: !data.find((item) => item.id === id)?.checked,
         });
@@ -91,7 +92,7 @@ function App() {
     setData(data.filter((item) => item.id !== id));
 
     async function deleteCall() {
-      const res = await axios.delete(`http://localhost:6969/data/${id}`);
+      await axios.delete(`http://localhost:6969/data/${id}`);
     }
     deleteCall();
   };
@@ -103,7 +104,7 @@ function App() {
     setInput("");
 
     async function insertCall() {
-      const res = await axios.post("http://localhost:6969/data", newData);
+      await axios.post("http://localhost:6969/data", newData);
     }
     insertCall();
   };
